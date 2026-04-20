@@ -70,7 +70,11 @@ export function retryable(error: Err) {
     if (
       lower.includes("rate increased too quickly") ||
       lower.includes("rate limit") ||
-      lower.includes("too many requests")
+      lower.includes("too many requests") ||
+      // Xunfei: 11210 TPM超限，超过当前最大TPM限制，TPM每分钟动态刷新，等待后可重试
+      lower.includes("notenoughcverror") ||
+      // Xunfei: 10012 引擎内部错误，或引擎处于排队状态
+      lower.includes("engineinternalerror")
     ) {
       return msg
     }
